@@ -8,7 +8,7 @@ DISASM_TMP := target/$(TARGET)/$(MODE)/asm
 # BOARD
 BOARD ?= qemu
 SBI ?= rustsbi
-BOOTLOADER := bootloader/$(SBI)-$(BOARD).bin
+BOOTLOADER := ../bootloader/$(SBI)-$(BOARD).bin
 K210_BOOTLOADER_SIZE := 131072
 
 # KERNEL ENTRY
@@ -48,6 +48,7 @@ $(KERNEL_BIN): kernel
 	@$(OBJCOPY) $(KERNEL_ELF) --strip-all -O binary $@
 
 kernel:
+	@cd ../user && make build
 	@echo Platform: $(BOARD)
 	@cp src/linker-$(BOARD).ld src/linker.ld
 	@cargo build --release
